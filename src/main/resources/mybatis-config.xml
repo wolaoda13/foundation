@@ -41,12 +41,10 @@
 	
 	<!-- 类型别名 -->
 	<typeAliases>
-		<typeAlias alias="Page" type="com.thinkgem.jeesite.common.persistence.Page" /><!--分页  -->
+		<typeAlias alias="Page" type="com.sunpeng.foundation.common.persistence.Page" />
 	</typeAliases>
-	
 	<!-- 插件配置 -->
 	<plugins>
-		<plugin interceptor="com.thinkgem.jeesite.common.persistence.interceptor.PaginationInterceptor" />
+		<plugin interceptor="com.sunpeng.foundation.common.persistence.interceptor.PaginationInterceptor" />
     </plugins>
-	
 </configuration>
