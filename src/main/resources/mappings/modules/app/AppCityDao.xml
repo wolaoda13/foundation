@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunpeng.foundation.modules.app.dao.AppCityDao">
+    
+	<sql id="appCityColumns">
+		a.id AS "id",
+		a.cityname AS "cityname"
+	</sql>
+	
+	<sql id="appCityJoins">
+	</sql>
+    
+	<select id="get" resultType="AppCity">
+		SELECT 
+			<include refid="appCityColumns"/>
+		FROM app_city a
+		<include refid="appCityJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AppCity">
+		SELECT 
+			<include refid="appCityColumns"/>
+		FROM app_city a
+		<include refid="appCityJoins"/>
+		<where>
+			
+			<if test="cityname != null and cityname != ''">
+				AND a.cityname LIKE 
+					<if test="dbName == 'oracle'">'%'||#{cityname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{cityname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{cityname},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AppCity">
+		SELECT 
+			<include refid="appCityColumns"/>
+		FROM app_city a
+		<include refid="appCityJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO app_city(
+			cityname
+		) VALUES (
+			#{cityname}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE app_city SET 	
+			cityname = #{cityname}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM app_city
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunpeng.foundation.modules.app.dao.AppUserDao">
+    
+	<sql id="appUserColumns">
+		a.id AS "id",
+		a.loginname AS "loginname",
+		a.password AS "password",
+		a.displayname AS "displayname",
+		a.phone AS "phone",
+		a.photo AS "photo",
+		a.mail AS "mail",
+		a.birthday AS "birthday",
+		a.sex AS "sex"
+	</sql>
+	
+	<sql id="appUserJoins">
+	</sql>
+    
+	<select id="get" resultType="AppUser">
+		SELECT 
+			<include refid="appUserColumns"/>
+		FROM app_user a
+		<include refid="appUserJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AppUser">
+		SELECT 
+			<include refid="appUserColumns"/>
+		FROM app_user a
+		<include refid="appUserJoins"/>
+		<where>
+			
+			<if test="displayname != null and displayname != ''">
+				AND a.displayname LIKE 
+					<if test="dbName == 'oracle'">'%'||#{displayname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{displayname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{displayname},'%')</if>
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone LIKE 
+					<if test="dbName == 'oracle'">'%'||#{phone}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{phone}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{phone},'%')</if>
+			</if>
+			<if test="mail != null and mail != ''">
+				AND a.mail LIKE 
+					<if test="dbName == 'oracle'">'%'||#{mail}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{mail}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{mail},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AppUser">
+		SELECT 
+			<include refid="appUserColumns"/>
+		FROM app_user a
+		<include refid="appUserJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO app_user(
+			id,
+			loginname,
+			password,
+			displayname,
+			phone,
+			photo,
+			mail,
+			birthday,
+			sex
+		) VALUES (
+			#{id},
+			#{loginname},
+			#{password},
+			#{displayname},
+			#{phone},
+			#{photo},
+			#{mail},
+			#{birthday},
+			#{sex}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE app_user SET 	
+			loginname = #{loginname},
+			password = #{password},
+			displayname = #{displayname},
+			phone = #{phone},
+			photo = #{photo},
+			mail = #{mail},
+			birthday = #{birthday},
+			sex = #{sex}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM app_user
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

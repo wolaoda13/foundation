@@ -42,11 +42,9 @@ public class LoginController extends BaseController{
 	@Autowired
 	private SessionDAO sessionDAO;
 	
-	/**
-	 * 管理登录
-	 */
-	@RequestMapping(value = "${adminPath}/login", method = RequestMethod.GET)
-	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
+	
+	@RequestMapping(value = "${adminPath}/trueLogin", method = RequestMethod.GET)
+	public String trueLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
 
 //		// 默认页签模式
@@ -75,6 +73,15 @@ public class LoginController extends BaseController{
 //		view += "/"+getClass().getName().replaceAll("\\.", "/").replace(getClass().getSimpleName(), "")+"view/sysLogin";
 //		view += ".jsp";
 		return "modules/sys/sysLogin";
+	}
+	
+	
+	/**
+	 * 管理登录
+	 */
+	@RequestMapping(value = "${adminPath}/login", method = RequestMethod.GET)
+	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "modules/app/index";
 	}
 
 	/**

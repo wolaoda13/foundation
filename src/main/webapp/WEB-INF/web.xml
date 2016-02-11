@@ -5,7 +5,9 @@
 	version="2.5">
 
 	<display-name>Foundation</display-name>
-
+	<welcome-file-list>
+	    <welcome-file>static/index.jsp</welcome-file>
+	 </welcome-file-list>
 	<!-- Context ConfigLocation -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -208,5 +210,4 @@
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/error/404.jsp</location>
 	</error-page>
-
 </web-app>

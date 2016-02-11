@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunpeng.foundation.modules.app.dao.AppTypeDao">
+    
+	<sql id="appTypeColumns">
+		a.id AS "id",
+		a.typename AS "typename"
+	</sql>
+	
+	<sql id="appTypeJoins">
+	</sql>
+    
+	<select id="get" resultType="AppType">
+		SELECT 
+			<include refid="appTypeColumns"/>
+		FROM app_type a
+		<include refid="appTypeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AppType">
+		SELECT 
+			<include refid="appTypeColumns"/>
+		FROM app_type a
+		<include refid="appTypeJoins"/>
+		<where>
+			
+			<if test="typename != null and typename != ''">
+				AND a.typename LIKE 
+					<if test="dbName == 'oracle'">'%'||#{typename}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{typename}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{typename},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AppType">
+		SELECT 
+			<include refid="appTypeColumns"/>
+		FROM app_type a
+		<include refid="appTypeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO app_type(
+			typename
+		) VALUES (
+			#{typename}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE app_type SET 	
+			typename = #{typename}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM app_type
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

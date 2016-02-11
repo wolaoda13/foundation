@@ -347,7 +347,7 @@ public class GenUtils {
 		if (isReplaceFile){
 			FileUtils.deleteFile(fileName);
 		}
-		
+		fileName="/home/sunpeng"+fileName.replace("//", "/");
 		// 创建并写入文件
 		if (FileUtils.createFile(fileName)){
 			FileUtils.writeToFile(fileName, content, true);
