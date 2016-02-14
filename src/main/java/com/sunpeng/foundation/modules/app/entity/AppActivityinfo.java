@@ -29,6 +29,8 @@ public class AppActivityinfo extends DataEntity<AppActivityinfo> {
 	private String activityphoto;		// 活动图片
 	private String beginActivitytime;		// 开始 活动时间
 	private String endActivitytime;		// 结束 活动时间
+	private int queue; //排序字段
+	private String createtime;
 	
 	public AppActivityinfo() {
 		super();
@@ -138,7 +140,11 @@ public class AppActivityinfo extends DataEntity<AppActivityinfo> {
 	
 	@Length(min=0, max=255, message="活动图片长度必须介于 0 和 255 之间")
 	public String getActivityphoto() {
-		return activityphoto;
+		if(activityphoto!= null && activityphoto.length() > 1){
+			return activityphoto.replace("|", "");
+		}else{
+			return activityphoto;
+		}
 	}
 
 	public void setActivityphoto(String activityphoto) {
@@ -159,6 +165,22 @@ public class AppActivityinfo extends DataEntity<AppActivityinfo> {
 
 	public void setEndActivitytime(String endActivitytime) {
 		this.endActivitytime = endActivitytime;
+	}
+
+	public int getQueue() {
+		return queue;
+	}
+
+	public void setQueue(int queue) {
+		this.queue = queue;
+	}
+
+	public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
 		
 }

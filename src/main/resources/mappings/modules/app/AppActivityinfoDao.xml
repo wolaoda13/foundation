@@ -15,7 +15,9 @@
 		a.signendtime AS "signendtime",
 		a.replystarttime AS "replystarttime",
 		a.activitytypeid AS "activitytypeid",
-		a.activityphoto AS "activityphoto"
+		a.activityphoto AS "activityphoto",
+		a.queue AS "queue",
+		a.createtime AS "createtime"
 	</sql>
 	
 	<sql id="appActivityinfoJoins">
@@ -35,9 +37,11 @@
 		FROM app_activityinfo a
 		<include refid="appActivityinfoJoins"/>
 		<where>
-			
 			<if test="beginActivitytime != null and endActivitytime != null and beginActivitytime != '' and endActivitytime != ''">
 				AND a.activitytime BETWEEN #{beginActivitytime} AND #{endActivitytime}
+			</if>
+			<if test="ishot != null and ishot != '' ">
+				AND a.ishot = #{ishot}
 			</if>
 		</where>
 		<choose>
@@ -79,7 +83,9 @@
 			signendtime,
 			replystarttime,
 			activitytypeid,
-			activityphoto
+			activityphoto,
+			queue,
+			createtime
 		) VALUES (
 			#{activityname},
 			#{activityplace},
@@ -92,7 +98,9 @@
 			#{signendtime},
 			#{replystarttime},
 			#{activitytypeid},
-			#{activityphoto}
+			#{activityphoto},
+			#{queue},
+			#{createtime}
 		)
 	</insert>
 	
@@ -109,7 +117,9 @@
 			signendtime = #{signendtime},
 			replystarttime = #{replystarttime},
 			activitytypeid = #{activitytypeid},
-			activityphoto = #{activityphoto}
+			activityphoto = #{activityphoto},
+			queue = #{queue},
+			createtime = #{createtime}
 		WHERE id = #{id}
 	</update>
 	

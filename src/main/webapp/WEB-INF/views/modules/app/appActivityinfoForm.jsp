@@ -6,6 +6,14 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
+	    	ue = UE.getEditor('editor', {
+	    	    autoHeight: true
+	    	});
+	    	ue.addListener("ready", function () {
+	            // editor准备好之后才可以使用
+	    		ue.setContent($("#activitycontent").val());
+
+	    	});
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
@@ -129,8 +137,8 @@
 		<div class="control-group">
 			<label class="control-label">活动详细：</label>
 			<div class="controls">
-				<form:textarea id="activitycontent" htmlEscape="false" path="activitycontent" rows="4" maxlength="200" class="input-xxlarge"/>
-				<sys:ckeditor replace="activitycontent" uploadPath="/ckupload " />
+				<input type="hidden" id="activitycontent" name="activitycontent" value="${appActivityinfo.activitycontent }"/> 
+				<script id="editor" type="text/plain" ></script>
 			</div>
 		</div>
 		<div class="form-actions">

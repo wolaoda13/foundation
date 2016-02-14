@@ -2,7 +2,6 @@
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
-
 CKEDITOR.editorConfig = function( config ) {
 	config.language = 'zh-cn'; config.uiColor = '#f7f5f4';
 	config.width = '99.7%'; 
@@ -10,6 +9,8 @@ CKEDITOR.editorConfig = function( config ) {
 		config.height = '400px';
 	}
 	config.removePlugins = 'elementspath,scayt';
+	config.entities=false;
+	config.htmlEncodeOutput = false;
 	config.disableNativeSpellChecker = false;
 	config.resize_dir = 'vertical';
 	config.keystrokes =[[ CKEDITOR.CTRL + 13 /*Enter*/, 'maximize' ]];	
