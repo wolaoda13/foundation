@@ -6,6 +6,7 @@ package com.sunpeng.foundation.modules.app.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -76,9 +77,11 @@ public class AppActivityinfoController extends BaseController {
 	@RequiresPermissions("app:appActivityinfo:edit")
 	@RequestMapping(value = "save")
 	public String save(AppActivityinfo appActivityinfo, Model model, RedirectAttributes redirectAttributes) {
+		
 		if (!beanValidator(model, appActivityinfo)){
 			return form(appActivityinfo, model);
 		}
+		appActivityinfo.setActivitycontent(StringEscapeUtils.unescapeHtml4(appActivityinfo.getActivitycontent()));
 		appActivityinfoService.save(appActivityinfo);
 		addMessage(redirectAttributes, "保存城市成功");
 		return "redirect:"+Global.getAdminPath()+"/app/appActivityinfo/?repage";

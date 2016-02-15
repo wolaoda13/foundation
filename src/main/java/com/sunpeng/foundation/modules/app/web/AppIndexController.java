@@ -1,6 +1,9 @@
 package com.sunpeng.foundation.modules.app.web;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sunpeng.foundation.common.persistence.Page;
 import com.sunpeng.foundation.modules.app.entity.AppActivityinfo;
 import com.sunpeng.foundation.modules.app.entity.AppCity;
+import com.sunpeng.foundation.modules.app.entity.AppUser;
 import com.sunpeng.foundation.modules.app.service.AppActivityinfoService;
 import com.sunpeng.foundation.modules.app.service.AppCityService;
+import com.sunpeng.foundation.modules.app.service.AppUserService;
+import com.sunpeng.foundation.modules.app.utils.MD5;
 
 
 
@@ -30,6 +36,8 @@ public class AppIndexController {
 
 	@Autowired
 	private AppCityService appCityService;
+	@Autowired
+	private AppUserService appUserService;
 	@Autowired
 	private AppActivityinfoService appActivityinfoService;
     /*
@@ -71,6 +79,7 @@ public class AppIndexController {
 		return "modules/app/indexlist";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "indexlist")
 	@ResponseBody
 	public Map indexlist(String cityId, String activityType,Integer limitStart) {
@@ -93,6 +102,39 @@ public class AppIndexController {
 //		List activityReplyList = activityReplyService.query(ActivityReply.class, " where activityId = '"+id+"'");
 //		request.setAttribute("replyNum", activityReplyList==null?0:activityReplyList.size());
 		return "modules/app/indexdetail";
+	}
+	
+	//跳转到我的页面
+	@RequestMapping(value = "toMine")
+	public String toMine(HttpServletRequest request,
+			HttpServletResponse response) {
+		if (AppUser.getSessionUserInfo(request) == null) {
+			return "modules/app/login";
+		} else {
+			request.setAttribute("appUser", appUserService.get(AppUser.getSessionUserInfo(request).getId()));
+			return "modules/app/mine";
+		}
+	}
+	
+	@RequestMapping(value = "tologin")
+	@ResponseBody
+	public Map tologin(AppUser appUser, HttpServletRequest request,HttpServletResponse response) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		AppUser searchUser = new AppUser();
+		searchUser.setLoginname(appUser.getLoginname());
+		List<AppUser> userList = (List<AppUser>) appUserService.findList(searchUser);
+		if (userList.size() > 0) {
+			if (MD5.checkpassword(appUser.getPassword(), userList.get(0).getPassword())) {
+				request.getSession().setAttribute("AppUser", userList.get(0));
+				map.put("loginType", "success");
+			} else {
+
+				map.put("loginType", "failed");
+			}
+		} else {
+			map.put("loginType", "failed");
+		}
+		return map;
 	}
 	
 }

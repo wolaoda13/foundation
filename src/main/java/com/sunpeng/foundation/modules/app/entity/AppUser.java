@@ -3,6 +3,8 @@
  */
 package com.sunpeng.foundation.modules.app.entity;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.validator.constraints.Length;
 
 import com.sunpeng.foundation.common.persistence.DataEntity;
@@ -102,6 +104,10 @@ public class AppUser extends DataEntity<AppUser> {
 
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+	
+	public static AppUser getSessionUserInfo(HttpServletRequest request){
+		return request.getSession().getAttribute("AppUser") == null ? null : (AppUser)request.getSession().getAttribute("AppUser");
 	}
 	
 }

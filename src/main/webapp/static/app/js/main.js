@@ -856,7 +856,7 @@ mt.home = {
     , init: function () {
         $('.hdbtnl').removeClass('hide');
         $('.hdbtnr').off('click').on('click', function () {
-            location = ctx + '/indexAction.do?method=toMine';
+            location = ctx + '/app/appIndex/toMine';
         }).addClass('hd_me2');
         $('.mcity a').on('click', function () {
             mt.t.cookie.del('b_city_id');
